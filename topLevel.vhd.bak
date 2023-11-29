@@ -59,7 +59,7 @@ begin
     controlador: entity work.controlador
         port map (clk => clk, reset_signal => reset_signal, botao => botao, saida => seletor);
 
-    mux1bit: entity work.bit1_mux4_1
+    mux1bit: entity work.mux1bit
         port map(clk1 => clk_out1, clk2 => clk_out2, clk3 => clk_out3, clk4 => clk_out4, controle => seletor, saida => saida_mux_1bit);
 
     contador: contador
