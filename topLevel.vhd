@@ -24,6 +24,9 @@ architecture Behavioral of topLevel is
     signal saida_controlador_display_mux : std_logic_vector (1 downto 0);
     signal saida_controlador_display : std_logic_vector (3 downto 0);
 
+    -------- Mux 4:1 --------
+    signal saida_mux4_1 : std_logic_vector (6 downto 0);
+    signal saida_mux4_1_seletor : std_logic_vector (1 downto 0);
 
     component contador is
         port(
@@ -62,22 +65,25 @@ begin
     mux1bit: entity work.bit1_mux4_1
         port map(clk1 => clk_out1, clk2 => clk_out2, clk3 => clk_out3, clk4 => clk_out4, controle => seletor, saida => saida_mux_1bit);
 
-    contador: contador
+    contadorEntity: entity work.contador 
         port map(clk => clk_mux, reset_signal => reset_signal, saida1 => saida_contador1, saida2 => saida_contador2, saida3 => saida_contador3, saida4 => saida_contador4);
 
-    BCD1: entity work.BCD
+    BCD1: entity work.modulo_BCD
         port map(entrada => saida_contador1, saida => saida_bcd1);
 
-    BCD2: entity work.BCD
+    BCD2: entity work.modulo_BCD
         port map(entrada => saida_contador2, saida => saida_bcd2);
 
-    BCD3: entity work.BCD
+    BCD3: entity work.modulo_BCD
         port map(entrada => saida_contador3, saida => saida_bcd3);
 
-    BCD4: entity work.BCD
+    BCD4: entity work.modulo_BCD
         port map(entrada => saida_contador4, saida => saida_bcd4);
 
     controlador_display: entity work.controlador_display
-        port map(clock => clk_mux, s_mux => saida_controlador_display_mux, saida => saida_controlador_display);
+        port map(clock => clk, s_mux => saida_controlador_display_mux, saida => saida_controlador_display);
+
+    mux: entity work.mux4_1
+        port map(entrada_A => saida_bcd1, entrada_B => saida_bcd2, entrada_C => saida_bcd3, entrada_D => saida_bcd4, saida => saida_mux4_1, seletor => saida_mux4_1_seletor);
 
 end Behavioral;

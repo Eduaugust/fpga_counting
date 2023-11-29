@@ -27,10 +27,10 @@ architecture Behavioral of modulo_BCD is
 
 begin
 
---Este circuito é responsável por decodificar o dado de entrada (combinação binária de 0000 até 1001) fornecendo
---como saída os valores que definem a representação decimal do número no display de 7 segmentos
+--Este circuito ï¿½ responsï¿½vel por decodificar o dado de entrada (combinaï¿½ï¿½o binï¿½ria de 0000 atï¿½ 1001) fornecendo
+--como saï¿½da os valores que definem a representaï¿½ï¿½o decimal do nï¿½mero no display de 7 segmentos
 
---MAPEAMENTO DA SAÍDA PARA O DISPLAY (IMPORTANTE)
+--MAPEAMENTO DA SAï¿½DA PARA O DISPLAY (IMPORTANTE)
 -- ORDEM DOS BITS: A B C D E F G
 
     saida <=

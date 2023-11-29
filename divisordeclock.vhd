@@ -7,7 +7,8 @@ entity divisordeclock is
     );
     port(
         clk, reset_signal: in std_logic;
-        clk_out: out std_logic
+        --- clk_out be a buffer
+        clk_out: buffer std_logic
     );
 end entity divisordeclock;
 
