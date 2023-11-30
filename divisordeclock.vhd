@@ -27,6 +27,7 @@ begin
                 clk_out <= not clk_out;
             else
                 contador <= contador + 1;
+					 clk_out <= '0';
             end if;
         end if;
     end process divisor_freq;

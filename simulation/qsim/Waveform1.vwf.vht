@@ -1,6 +1,6 @@
--- Copyright (C) 2017  Intel Corporation. All rights reserved.
+-- Copyright (C) 2020  Intel Corporation. All rights reserved.
 -- Your use of Intel Corporation's design tools, logic functions 
--- and other software and tools, and its AMPP partner logic 
+-- and other software and tools, and any partner logic 
 -- functions, and any output files from any of the foregoing 
 -- (including device programming or simulation files), and any 
 -- associated documentation or information are expressly subject 
@@ -10,7 +10,8 @@
 -- agreement, including, without limitation, that your use is for
 -- the sole purpose of programming logic devices manufactured by
 -- Intel and sold by Intel or its authorized distributors.  Please
--- refer to the applicable agreement for further details.
+-- refer to the applicable agreement for further details, at
+-- https://fpgasoftware.intel.com/eula.
 
 -- *****************************************************************************
 -- This file contains a Vhdl test bench with test vectors .The test vectors     
@@ -18,9 +19,9 @@
 -- the top level entity of the current Quartus project .The user can use this   
 -- testbench to simulate his design using a third-party simulation tool .       
 -- *****************************************************************************
--- Generated on "11/29/2023 19:36:58"
+-- Generated on "11/29/2023 23:14:22"
                                                              
--- Vhdl Test Bench(with test vectors) for design  :          bit1_mux4_1
+-- Vhdl Test Bench(with test vectors) for design  :          divisordeclock
 -- 
 -- Simulation tool : 3rd Party
 -- 
@@ -28,112 +29,48 @@
 LIBRARY ieee;                                               
 USE ieee.std_logic_1164.all;                                
 
-ENTITY bit1_mux4_1_vhd_vec_tst IS
-END bit1_mux4_1_vhd_vec_tst;
-ARCHITECTURE bit1_mux4_1_arch OF bit1_mux4_1_vhd_vec_tst IS
+ENTITY divisordeclock_vhd_vec_tst IS
+END divisordeclock_vhd_vec_tst;
+ARCHITECTURE divisordeclock_arch OF divisordeclock_vhd_vec_tst IS
 -- constants                                                 
 -- signals                                                   
-SIGNAL clk1 : STD_LOGIC;
-SIGNAL clk2 : STD_LOGIC;
-SIGNAL clk3 : STD_LOGIC;
-SIGNAL clk4 : STD_LOGIC;
-SIGNAL controle : STD_LOGIC_VECTOR(1 DOWNTO 0);
-SIGNAL saida : STD_LOGIC;
-COMPONENT bit1_mux4_1
+SIGNAL clk : STD_LOGIC;
+SIGNAL clk_out : STD_LOGIC;
+SIGNAL reset_signal : STD_LOGIC;
+COMPONENT divisordeclock
 	PORT (
-	clk1 : IN STD_LOGIC;
-	clk2 : IN STD_LOGIC;
-	clk3 : IN STD_LOGIC;
-	clk4 : IN STD_LOGIC;
-	controle : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
-	saida : OUT STD_LOGIC
+	clk : IN STD_LOGIC;
+	clk_out : BUFFER STD_LOGIC;
+	reset_signal : IN STD_LOGIC
 	);
 END COMPONENT;
 BEGIN
-	i1 : bit1_mux4_1
+	i1 : divisordeclock
 	PORT MAP (
 -- list connections between master ports and signals
-	clk1 => clk1,
-	clk2 => clk2,
-	clk3 => clk3,
-	clk4 => clk4,
-	controle => controle,
-	saida => saida
+	clk => clk,
+	clk_out => clk_out,
+	reset_signal => reset_signal
 	);
 
--- clk1
-t_prcs_clk1: PROCESS
+-- clk
+t_prcs_clk: PROCESS
 BEGIN
 LOOP
-	clk1 <= '0';
-	WAIT FOR 10000 ps;
-	clk1 <= '1';
-	WAIT FOR 10000 ps;
+	clk <= '0';
+	WAIT FOR 5000 ps;
+	clk <= '1';
+	WAIT FOR 5000 ps;
 	IF (NOW >= 1000000 ps) THEN WAIT; END IF;
 END LOOP;
-END PROCESS t_prcs_clk1;
+END PROCESS t_prcs_clk;
 
--- clk2
-t_prcs_clk2: PROCESS
+-- reset_signal
+t_prcs_reset_signal: PROCESS
 BEGIN
-LOOP
-	clk2 <= '0';
-	WAIT FOR 20000 ps;
-	clk2 <= '1';
-	WAIT FOR 20000 ps;
-	IF (NOW >= 1000000 ps) THEN WAIT; END IF;
-END LOOP;
-END PROCESS t_prcs_clk2;
-
--- clk3
-t_prcs_clk3: PROCESS
-BEGIN
-	FOR i IN 1 TO 12
-	LOOP
-		clk3 <= '0';
-		WAIT FOR 40000 ps;
-		clk3 <= '1';
-		WAIT FOR 40000 ps;
-	END LOOP;
-	clk3 <= '0';
+	reset_signal <= '1';
+	WAIT FOR 70000 ps;
+	reset_signal <= '0';
 WAIT;
-END PROCESS t_prcs_clk3;
-
--- clk4
-t_prcs_clk4: PROCESS
-BEGIN
-	FOR i IN 1 TO 6
-	LOOP
-		clk4 <= '0';
-		WAIT FOR 80000 ps;
-		clk4 <= '1';
-		WAIT FOR 80000 ps;
-	END LOOP;
-	clk4 <= '0';
-WAIT;
-END PROCESS t_prcs_clk4;
--- controle[1]
-t_prcs_controle_1: PROCESS
-BEGIN
-	FOR i IN 1 TO 12
-	LOOP
-		controle(1) <= '0';
-		WAIT FOR 40000 ps;
-		controle(1) <= '1';
-		WAIT FOR 40000 ps;
-	END LOOP;
-	controle(1) <= '0';
-WAIT;
-END PROCESS t_prcs_controle_1;
--- controle[0]
-t_prcs_controle_0: PROCESS
-BEGIN
-LOOP
-	controle(0) <= '0';
-	WAIT FOR 20000 ps;
-	controle(0) <= '1';
-	WAIT FOR 20000 ps;
-	IF (NOW >= 1000000 ps) THEN WAIT; END IF;
-END LOOP;
-END PROCESS t_prcs_controle_0;
-END bit1_mux4_1_arch;
+END PROCESS t_prcs_reset_signal;
+END divisordeclock_arch;

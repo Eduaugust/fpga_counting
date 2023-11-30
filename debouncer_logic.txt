@@ -1,0 +1,41 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity debouncer_logic is
+    port (
+        clk : in std_logic;
+        data   : in std_logic;
+        op_data   : out std_logic
+    );
+end entity debouncer_logic;
+
+architecture behavioral of debouncer_logic is
+    signal op1, op2, op3 : std_logic;
+begin
+    -- D flip-flop 1
+    process (clk)
+    begin
+        if rising_edge(clk) then
+            op1 <= data;
+        end if;
+    end process;
+
+    -- D flip-flop 2
+    process (clk)
+    begin
+        if rising_edge(clk) then
+            op2 <= op1;
+        end if;
+    end process;
+
+    -- D flip-flop 3
+    process (clk)
+    begin
+        if rising_edge(clk) then
+            op3 <= op2;
+        end if;
+    end process;
+
+    op_data <= op1 and op2 and op3;
+end architecture behavioral;
+
